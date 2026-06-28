@@ -40,384 +40,412 @@ Penelitian ini diharapkan dapat memberikan pemahaman mengenai penerapan metode T
 
 ---
 
-# BAB II. METODOLOGI PENELITIAN
+# BAB II METODOLOGI PENELITIAN
 
-## 2.1 Data Penelitian
+## Metode
 
-Penelitian ini menggunakan data primer yang diperoleh melalui penyebaran kuesioner mengenai tingkat kecemasan mahasiswa dalam menghadapi ujian. Instrumen penelitian terdiri atas 10 butir pertanyaan menggunakan skala Likert 1–5, dengan keterangan sebagai berikut:
+Penelitian ini merupakan penelitian kuantitatif dengan pendekatan survei menggunakan kuesioner skala Likert. Penelitian bertujuan untuk mengestimasi rata-rata tingkat kecemasan mahasiswa Program Studi Statistika FMIPA Universitas Mataram menggunakan metode **Two-Stage Cluster Sampling**.
 
-- 1 = Sangat Tidak Setuju
-- 2 = Tidak Setuju
-- 3 = Netral
-- 4 = Setuju
-- 5 = Sangat Setuju
+Populasi penelitian terdiri dari mahasiswa Program Studi Statistika FMIPA Universitas Mataram kelas A dengan rincian sebagai berikut.
 
-Populasi penelitian adalah seluruh mahasiswa Statistika yang berada pada dua kelas, yaitu:
-
-| Cluster | Jumlah Mahasiswa |
-|---------|-----------------:|
-| 2024A | 24 |
-| 2025A | 32 |
+| Angkatan | Jumlah Mahasiswa |
+|:---------|-----------------:|
+| 2024 A | 24 |
+| 2025 A | 32 |
 | **Total** | **56** |
+
+Pengolahan data dilakukan menggunakan bahasa pemrograman **R** dengan bantuan package `readxl`, `psych`, dan `survey`.
 
 ---
 
-## 2.2 Penentuan Jumlah Sampel
+## Teknik Pengambilan Sampel
 
-Jumlah sampel ditentukan menggunakan rumus Slovin.
+Penelitian ini menggunakan metode **Two-Stage Cluster Sampling**, yaitu teknik sampling yang dilakukan melalui dua tahap.
 
-**Rumus Slovin**
+### Tahap 1. Pemilihan Cluster
+
+Pada tahap pertama dilakukan pemilihan cluster menggunakan Microsoft Excel.
+
+Setiap kelas diberikan nilai acak menggunakan fungsi **RAND()**, kemudian diurutkan dari nilai terkecil hingga terbesar. Berdasarkan hasil randomisasi tersebut diperoleh dua cluster yang dijadikan sampel penelitian, yaitu:
+
+- 2024 A
+- 2025 A
+
+---
+
+### Tahap 2. Pemilihan Responden
+
+Setelah cluster terpilih, seluruh mahasiswa pada masing-masing cluster kembali diberikan nilai acak menggunakan fungsi **RAND()**. Selanjutnya data diurutkan dari nilai acak terkecil hingga terbesar.
+
+Jumlah responden yang diambil dari setiap cluster dilakukan secara proporsional terhadap jumlah mahasiswa pada masing-masing cluster.
+
+| Cluster | Populasi | Sampel |
+|:--------|---------:|--------:|
+| 2024 A | 24 | 13 |
+| 2025 A | 32 | 17 |
+| **Total** | **56** | **30** |
+
+Dengan demikian jumlah responden penelitian sebanyak **30 mahasiswa**.
+
+---
+
+## Penentuan Jumlah Sampel
+
+Jumlah sampel minimum dihitung menggunakan rumus Slovin.
 
 ```
-            N
-n = ----------------
-    1 + N(e × e)
+n = N / (1 + N × e²)
 ```
 
 Keterangan:
 
-- n = ukuran sampel
-- N = jumlah populasi
-- e = margin of error
+- `n` = jumlah sampel
+- `N` = jumlah populasi
+- `e` = margin of error
 
-Pada penelitian ini diketahui:
+Pada penelitian ini digunakan:
 
-- N = 56 mahasiswa
-- e = 12,5% = 0,125
+- Populasi (`N`) = **56 mahasiswa**
+- Margin of error (`e`) = **15%**
+
+Perhitungan:
+
+```
+n = 56 / (1 + 56 × 0,15²)
+
+n = 56 / (1 + 1,26)
+
+n = 56 / 2,26
+
+n = 24,78 ≈ 25 responden
+```
+
+Agar jumlah responden lebih representatif dan memenuhi kebutuhan analisis statistik, jumlah sampel ditingkatkan menjadi **30 responden**.
+
+---
+
+# Tahapan Analisis Data
+
+## 1. Import Data
+
+Data hasil kuesioner yang telah disimpan dalam format Microsoft Excel diimpor ke dalam R menggunakan package **readxl**.
+
+```r
+library(readxl)
+
+data <- read_excel("Formulir tanpa judul (Jawaban) (8).xlsx")
+```
+
+Keterangan:
+
+- `library(readxl)` digunakan untuk memanggil package **readxl**.
+- `read_excel()` digunakan untuk membaca data Excel ke dalam R.
+
+---
+
+## 2. Melihat Struktur Data
+
+Tahap ini bertujuan memastikan seluruh data berhasil dibaca dengan benar.
+
+```r
+str(data)
+
+summary(data)
+```
+
+Keterangan:
+
+- `str()` digunakan untuk melihat struktur data.
+- `summary()` digunakan untuk menampilkan ringkasan statistik setiap variabel.
+
+---
+
+## 3. Uji Validitas dan Reliabilitas
+
+Instrumen penelitian diuji menggunakan metode **Cronbach Alpha** pada package **psych**.
+
+```r
+library(psych)
+
+item <- data[, paste0("P",1:10)]
+
+hasil <- alpha(item)
+
+validitas <- data.frame(
+  Item = rownames(hasil$item.stats),
+  Corrected_Item_Total = round(hasil$item.stats$r.drop,3)
+)
+
+validitas$Keterangan <- ifelse(
+  validitas$Corrected_Item_Total > 0.30,
+  "Valid",
+  "Tidak Valid"
+)
+
+validitas
+```
+
+Keterangan:
+
+- `alpha()` digunakan untuk menghitung validitas dan reliabilitas.
+- `r.drop` merupakan Corrected Item Total Correlation.
+- Item dinyatakan valid apabila `r.drop > 0,30`.
+
+Selanjutnya dilakukan uji reliabilitas.
+
+```r
+alpha <- hasil$total$raw_alpha
+
+cat("Cronbach Alpha =", round(alpha,3))
+
+if(alpha >= 0.70){
+  cat("Instrumen Reliabel")
+}else{
+  cat("Instrumen Tidak Reliabel")
+}
+```
+
+Keterangan:
+
+- Instrumen dinyatakan reliabel apabila nilai **Cronbach Alpha ≥ 0,70**.
+
+---
+
+## 4. Menghitung Skor Total
+
+Skor total setiap responden dihitung dengan menjumlahkan seluruh skor jawaban.
+
+```r
+data$Skor_Total <- rowSums(item)
+
+summary(data$Skor_Total)
+
+mean(data$Skor_Total)
+
+sd(data$Skor_Total)
+```
+
+Keterangan:
+
+- `rowSums()` digunakan untuk menghitung total skor masing-masing responden.
+- `mean()` menghitung rata-rata skor.
+- `sd()` menghitung simpangan baku skor.
+
+---
+
+## 5. Histogram Skor Total
+
+Histogram digunakan untuk melihat distribusi skor tingkat kecemasan mahasiswa.
+
+```r
+hist(
+  data$Skor_Total,
+  main="Histogram Tingkat Kecemasan",
+  xlab="Skor Total",
+  ylab="Frekuensi",
+  col="lightblue",
+  border="black"
+)
+```
+
+---
+
+## 6. Menghitung Bobot Sampel
+
+Karena menggunakan metode **Two-Stage Cluster Sampling**, setiap responden diberikan bobot sesuai proporsi populasi pada cluster masing-masing.
+
+```r
+N2024 <- 24
+N2025 <- 32
+
+n2024 <- 13
+n2025 <- 17
+
+data$Bobot <- ifelse(
+  data$Angkatan == 2024,
+  N2024/n2024,
+  N2025/n2025
+)
+```
+
+Keterangan:
+
+Bobot dihitung menggunakan rumus:
+
+```
+Bobot = Jumlah Populasi Cluster / Jumlah Sampel Cluster
+```
 
 Sehingga diperoleh:
 
-```
-             56
-n = ----------------------
-    1 + 56(0,125 × 0,125)
+- Bobot responden angkatan 2024 = **24/13 = 1,846**
+- Bobot responden angkatan 2025 = **32/17 = 1,882**
 
-  = 56 / 1,875
-
-  = 29,87 ≈ 30 responden
-```
-
-Dengan demikian jumlah sampel yang digunakan dalam penelitian ini adalah **30 responden**.
+Bobot tersebut digunakan pada proses estimasi menggunakan **Two-Stage Cluster Sampling**.
 
 ---
 
-## 2.3 Teknik Pengambilan Sampel
-
-Penelitian ini menggunakan metode **Two-Stage Cluster Sampling**, yaitu teknik pengambilan sampel yang dilakukan melalui dua tahap.
-
-### Tahap I (Pemilihan Cluster)
-
-Populasi dikelompokkan berdasarkan kelas, yaitu:
-
-- 2024A
-- 2025A
-
-Pemilihan cluster dilakukan menggunakan Microsoft Excel dengan fungsi **RAND()**. Nilai acak diurutkan dari yang terkecil hingga terbesar, kemudian dua cluster teratas dipilih sebagai cluster penelitian.
-
-Cluster yang terpilih adalah:
-
-- 2024A
-- 2025A
-
----
-
-### Tahap II (Pemilihan Responden)
-
-Jumlah sampel pada masing-masing cluster ditentukan secara proporsional menggunakan rumus:
-
-```
-        Nh
-nh = -------- × n
-         N
-```
-
-Keterangan:
-
-- nh = jumlah sampel pada cluster ke-h
-- Nh = jumlah populasi pada cluster ke-h
-- N = jumlah populasi
-- n = jumlah sampel
-
-Perhitungan untuk masing-masing cluster adalah sebagai berikut.
-
-#### Cluster 2024A
-
-```
-      24
-nh = ---- × 30
-      56
-
-   = 12,86 ≈ 13 responden
-```
-
-#### Cluster 2025A
-
-```
-      32
-nh = ---- × 30
-      56
-
-   = 17,14 ≈ 17 responden
-```
-
-Selanjutnya, anggota pada masing-masing cluster kembali diacak menggunakan fungsi **RAND()** di Microsoft Excel. Nilai acak kemudian diurutkan dari yang terkecil hingga terbesar, sehingga diperoleh:
-
-- 13 responden dari kelas 2024A.
-- 17 responden dari kelas 2025A.
-
-Dengan demikian total sampel penelitian berjumlah **30 responden**.
-
----
-
-## 2.4 Langkah Analisis Data
-
-Analisis data dilakukan menggunakan perangkat lunak **R** dengan tahapan sebagai berikut.
-
-1. Mengimpor data hasil kuesioner.
-2. Melakukan uji validitas instrumen menggunakan Corrected Item-Total Correlation.
-3. Melakukan uji reliabilitas menggunakan Cronbach's Alpha.
-4. Menghitung skor total setiap responden.
-5. Menghitung bobot sampel pada setiap cluster.
-6. Menentukan desain survei menggunakan fungsi `svydesign()`.
-7. Mengestimasi rata-rata skor kecemasan menggunakan fungsi `svymean()`.
-8. Menghitung Standard Error (SE).
-9. Menghitung Confidence Interval (CI) 95%.
-10. Menghitung Relative Standard Error (RSE).
-11. Menghitung Design Effect (Deff).
-12. Menyajikan hasil estimasi dalam bentuk tabel dan grafik.
-
----
-
-## 2.5 Rumus Estimasi Two-Stage Cluster Sampling
-
-### 1. Estimasi Rata-rata
-
-```
-           Σ(wi × yi)
-ȳ = --------------------------
-          Σwi
-```
-
-Keterangan:
-
-- yi = skor responden ke-i
-- wi = bobot responden
-
----
-
-### 2. Standard Error (SE)
-
-```
-SE = √Var(ȳ)
-```
-
----
-
-### 3. Confidence Interval (95%)
-
-```
-CI = ȳ ± 1,96 × SE
-```
-
----
-
-### 4. Relative Standard Error (RSE)
-
-```
-          SE
-RSE = -------- × 100%
-         ȳ
-```
-
----
-
-### 5. Design Effect (Deff)
-
-```
-             Var(Cluster)
-Deff = ----------------------------
-          Var(Simple Random)
-```
-
-Nilai Deff digunakan untuk menggambarkan efisiensi desain sampling yang digunakan dibandingkan dengan Simple Random Sampling.
----
-
-# BAB III
-# HASIL DAN PEMBAHASAN
+# BAB III HASIL DAN PEMBAHASAN
 
 ## 3.1 Deskripsi Data
 
-Penelitian ini menggunakan data primer yang diperoleh melalui penyebaran kuesioner kepada mahasiswa Program Studi Matematika Universitas Mataram. Jumlah responden yang digunakan sebanyak **30 mahasiswa** yang berasal dari dua cluster, yaitu angkatan **2024A** dan **2025A**.
+Penelitian ini menggunakan data hasil penyebaran kuesioner kepada **30 mahasiswa** Program Studi Statistika FMIPA Universitas Mataram.
 
-Instrumen penelitian terdiri atas **10 butir pernyataan** mengenai tingkat kecemasan mahasiswa dalam menghadapi ujian menggunakan skala Likert 1–5.
+Pengambilan sampel dilakukan menggunakan metode **Two-Stage Cluster Sampling**. Pada tahap pertama dipilih dua cluster, yaitu kelas **2024 A** dan **2025 A**. Selanjutnya, pada tahap kedua dipilih responden secara acak dari masing-masing cluster sehingga diperoleh **13 responden dari kelas 2024 A** dan **17 responden dari kelas 2025 A**.
 
-Berdasarkan hasil pengolahan data menggunakan RStudio diperoleh ringkasan statistik sebagai berikut.
+Instrumen penelitian terdiri atas **10 butir pertanyaan (P1–P10)** yang digunakan untuk mengukur tingkat kecemasan mahasiswa dalam menghadapi ujian menggunakan skala Likert 1–5.
 
-| Statistik | Nilai |
-|-----------|-------:|
-| Jumlah Responden | 30 |
-| Jumlah Item | 10 |
-| Skor Minimum | 20 |
-| Skor Maksimum | 47 |
-| Rata-rata Skor | 33,967 |
-| Simpangan Baku | 7,545 |
-
-Rata-rata skor kecemasan mahasiswa sebesar **33,967** dengan simpangan baku sebesar **7,545**, yang menunjukkan adanya variasi tingkat kecemasan di antara responden.
+| Cluster | Populasi | Sampel |
+|:---------|---------:|--------:|
+| 2024 A | 24 | 13 |
+| 2025 A | 32 | 17 |
+| **Total** | **56** | **30** |
 
 ---
 
-## 3.2 Uji Validitas
+## 3.2 Hasil Uji Validitas
 
-Uji validitas dilakukan menggunakan **Corrected Item-Total Correlation**. Suatu item dinyatakan valid apabila memiliki nilai Corrected Item-Total Correlation lebih besar dari **0,30**.
+Uji validitas dilakukan menggunakan **Corrected Item-Total Correlation (r.drop)**. Suatu item dinyatakan valid apabila memiliki nilai **r.drop > 0,30**.
 
-Hasil uji validitas disajikan pada tabel berikut.
+### Hasil Uji Validitas
 
 | Item | Corrected Item-Total Correlation | Keterangan |
 |:----:|---------------------------------:|:----------:|
-| P1 | 0,797 | Valid |
-| P2 | 0,787 | Valid |
-| P3 | 0,430 | Valid |
-| P4 | 0,658 | Valid |
-| P5 | 0,303 | Valid |
-| P6 | 0,668 | Valid |
-| P7 | 0,584 | Valid |
-| P8 | 0,725 | Valid |
-| P9 | 0,556 | Valid |
-| P10 | 0,410 | Valid |
+| P1 | 0.797 | Valid |
+| P2 | 0.787 | Valid |
+| P3 | 0.430 | Valid |
+| P4 | 0.658 | Valid |
+| P5 | 0.303 | Valid |
+| P6 | 0.668 | Valid |
+| P7 | 0.584 | Valid |
+| P8 | 0.725 | Valid |
+| P9 | 0.556 | Valid |
+| P10 | 0.410 | Valid |
 
-Berdasarkan hasil tersebut, seluruh item memiliki nilai **Corrected Item-Total Correlation > 0,30**, sehingga seluruh butir pernyataan dinyatakan **valid** dan layak digunakan dalam penelitian.
+### Pembahasan
 
----
-
-## 3.3 Uji Reliabilitas
-
-Reliabilitas instrumen diukur menggunakan koefisien **Cronbach's Alpha**.
-
-Hasil analisis menunjukkan nilai:
-```
-\[
-\alpha = 0,874
-\]
-```
-Karena nilai Cronbach's Alpha lebih besar dari **0,70**, maka instrumen penelitian dinyatakan **reliabel**. Hal ini menunjukkan bahwa seluruh butir pernyataan memiliki tingkat konsistensi internal yang baik dalam mengukur tingkat kecemasan mahasiswa.
+Berdasarkan hasil pengujian, seluruh item memiliki nilai **Corrected Item-Total Correlation lebih besar dari 0,30**. Dengan demikian seluruh butir pertanyaan dinyatakan **valid**, sehingga mampu mengukur tingkat kecemasan mahasiswa sesuai tujuan penelitian dan layak digunakan dalam proses analisis.
 
 ---
 
-## 3.4 Distribusi Skor Total
+## 3.3 Hasil Uji Reliabilitas
 
-Skor total responden diperoleh dari penjumlahan seluruh skor pada 10 butir pertanyaan.
+Uji reliabilitas dilakukan menggunakan metode **Cronbach's Alpha**.
 
-Histogram skor total ditunjukkan pada Gambar 3.1.
+### Hasil Uji Reliabilitas
 
-> **<img width="322" height="320" alt="{836554F1-01A0-4914-B988-4F94E4AB01B7}" src="https://github.com/user-attachments/assets/f9ade80c-60a5-4e8f-837f-2d9ff0b0d287" />
+| Statistik | Nilai |
+|-----------|------:|
+| Cronbach's Alpha | **0.874** |
+
+### Pembahasan
+
+Nilai **Cronbach's Alpha sebesar 0,874** lebih besar daripada batas minimum **0,70**, sehingga instrumen penelitian dinyatakan **reliabel**. Hal ini menunjukkan bahwa seluruh item memiliki konsistensi internal yang baik sehingga dapat digunakan untuk mengukur tingkat kecemasan mahasiswa.
+
+---
+
+## 3.4 Analisis Deskriptif Skor Total
+
+Skor total diperoleh dengan menjumlahkan skor seluruh item pertanyaan pada setiap responden.
+
+### Ringkasan Statistik
+
+| Statistik | Nilai |
+|-----------|------:|
+| Minimum | 20 |
+| Kuartil 1 | 29,25 |
+| Median | 35 |
+| Mean | 33,97 |
+| Kuartil 3 | 38,75 |
+| Maksimum | 47 |
+| Simpangan Baku | 7,55 |
+
+### Pembahasan
+
+Rata-rata skor total responden sebesar **33,97** dengan simpangan baku sebesar **7,55**. Nilai minimum yang diperoleh adalah **20**, sedangkan nilai maksimum mencapai **47**. Hal ini menunjukkan bahwa tingkat kecemasan mahasiswa cukup bervariasi, namun sebagian besar responden memiliki skor pada kategori sedang.
+
+---
+
+## 3.5 Histogram Skor Tingkat Kecemasan
+
+Histogram berikut menunjukkan distribusi skor total tingkat kecemasan mahasiswa.
+
+> **<img width="317" height="308" alt="{EC662911-5856-40D4-A206-C4A8C813A4E6}" src="https://github.com/user-attachments/assets/0351c930-b43c-460e-8787-789f33fbf4c7" />
 **
 
-**Gambar 3.1 Histogram Skor Total Tingkat Kecemasan Mahasiswa**
+### Pembahasan
 
-Berdasarkan histogram terlihat bahwa skor total responden tersebar pada rentang **20 hingga 47**. Sebagian besar responden memiliki skor pada rentang nilai tengah hingga tinggi, sehingga menunjukkan bahwa tingkat kecemasan mahasiswa relatif bervariasi.
+Histogram menunjukkan bahwa sebagian besar responden memiliki skor total pada rentang sekitar **30 hingga 40**. Hal ini menunjukkan bahwa mayoritas mahasiswa memiliki tingkat kecemasan yang berada pada kategori sedang, meskipun terdapat beberapa responden dengan skor yang lebih rendah maupun lebih tinggi.
 
 ---
 
-## 3.5 Pembobotan (Weighting)
+## 3.6 Pembobotan (Weighting)
 
-Karena penelitian menggunakan metode **Two-Stage Cluster Sampling**, maka setiap responden diberikan bobot berdasarkan peluang terpilihnya pada masing-masing cluster.
+Karena penelitian menggunakan metode **Two-Stage Cluster Sampling**, setiap responden diberikan bobot sesuai dengan ukuran populasi pada cluster asalnya.
 
-Bobot dihitung menggunakan rumus
+Perhitungan bobot dilakukan sebagai berikut.
+
+### Cluster 2024 A
+
 ```
-\[
-w_h=\frac{N_h}{n_h}
-\]
-
-dengan:
-
-- \(N_h\) = jumlah populasi pada cluster ke-h
-- \(n_h\) = jumlah sampel pada cluster ke-h
-
-Perhitungan bobot menghasilkan:
-
-Untuk angkatan 2024A
-
-\[
-w=\frac{24}{13}=1,846
-\]
-
-Untuk angkatan 2025A
-
-\[
-w=\frac{32}{17}=1,882
-\]
+Bobot = 24 / 13 = 1.846
 ```
-Bobot tersebut digunakan dalam proses estimasi menggunakan package **survey** di RStudio sehingga setiap responden memberikan kontribusi sesuai dengan peluang pemilihannya.
+
+### Cluster 2025 A
+
+```
+Bobot = 32 / 17 = 1.882
+```
+
+### Pembahasan
+
+Bobot diberikan agar setiap responden dapat mewakili jumlah anggota populasi pada cluster asalnya. Dengan demikian, hasil estimasi yang diperoleh menjadi lebih representatif terhadap populasi penelitian.
 
 ---
 
-## 3.6 Estimasi Rata-rata Menggunakan Two-Stage Cluster Sampling
+## 3.7 Hasil Estimasi Two-Stage Cluster Sampling
 
-Estimasi rata-rata skor kecemasan dilakukan menggunakan fungsi **svymean()** pada package **survey** dengan mempertimbangkan bobot sampel.
+Estimasi rata-rata tingkat kecemasan dilakukan menggunakan package **survey** di R dengan memperhatikan bobot setiap responden.
 
-Hasil estimasi ditunjukkan pada tabel berikut.
+### Hasil Estimasi
 
-| Parameter | Nilai |
-|-----------|-------:|
-| Mean | 33,993 |
-| Standard Error | 2,696 |
-| Relative Standard Error (RSE) | 7,931 % |
-| Design Effect (Deff) | 8,283 |
+| Statistik | Nilai |
+|-----------|------:|
+| Mean | **33.993** |
+| Standard Error (SE) | **2.696** |
+| Relative Standard Error (RSE) | **7.93 %** |
+| Design Effect (DEFF) | **8.283** |
 
-Hasil estimasi menunjukkan bahwa rata-rata skor kecemasan mahasiswa adalah sebesar **33,993**.
+### Interval Kepercayaan 95%
 
-Nilai **Standard Error** sebesar **2,696** menunjukkan besarnya kesalahan baku dari estimasi rata-rata yang diperoleh.
+| Batas Bawah | Batas Atas |
+|------------:|-----------:|
+| 28.709 | 39.277 |
 
-Nilai **Relative Standard Error (RSE)** sebesar **7,931%** menunjukkan bahwa hasil estimasi memiliki tingkat ketelitian yang baik karena masih berada di bawah batas 25%.
+### Pembahasan
 
-Nilai **Design Effect (Deff)** sebesar **8,283** menunjukkan bahwa penggunaan desain Two-Stage Cluster Sampling menghasilkan ragam estimasi yang lebih besar dibandingkan dengan Simple Random Sampling. Hal tersebut dapat terjadi karena responden yang berada dalam satu cluster cenderung memiliki karakteristik yang relatif serupa sehingga meningkatkan ragam estimasi.
+### Pembahasan
 
----
+Berdasarkan hasil estimasi menggunakan metode **Two-Stage Cluster Sampling**, diperoleh rata-rata skor tingkat kecemasan mahasiswa sebesar **33,993**. Nilai tersebut merupakan estimasi rata-rata skor tingkat kecemasan mahasiswa pada populasi yang diteliti. Nilai **Standard Error (SE)** sebesar **2,696** menunjukkan besarnya galat baku dari estimasi rata-rata yang diperoleh. Nilai ini menggambarkan tingkat ketelitian estimasi, di mana semakin kecil nilai SE maka estimasi yang dihasilkan semakin stabil. Nilai **Relative Standard Error (RSE)** sebesar **7,93%** menunjukkan bahwa hasil estimasi memiliki tingkat ketelitian yang baik karena berada di bawah batas **25%**. Dengan demikian, estimasi rata-rata tingkat kecemasan mahasiswa dapat dikatakan cukup akurat. Berdasarkan interval kepercayaan **95%**, diperoleh batas bawah sebesar **28,709** dan batas atas sebesar **39,277**. Hal ini berarti rata-rata tingkat kecemasan mahasiswa pada populasi diperkirakan berada pada rentang tersebut dengan tingkat kepercayaan sebesar **95%**.
 
-## 3.7 Interval Kepercayaan
-
-Interval kepercayaan 95% yang diperoleh dari hasil estimasi adalah
-
-\[
-28,709 \leq \mu \leq 39,277
-\]
-
-Artinya, dengan tingkat kepercayaan sebesar **95%**, rata-rata skor kecemasan mahasiswa diperkirakan berada pada interval **28,709 hingga 39,277**.
+Nilai **Design Effect (DEFF)** sebesar **8,283** menunjukkan adanya pengaruh desain pengambilan sampel terhadap varians estimasi. Nilai ini mengindikasikan bahwa karakteristik responden dalam setiap cluster cenderung memiliki kemiripan sehingga memengaruhi besarnya variasi hasil estimasi yang diperoleh. Oleh karena itu, penggunaan pembobotan pada metode **Two-Stage Cluster Sampling** diperlukan agar estimasi yang dihasilkan tetap dapat merepresentasikan populasi penelitian.
 
 ---
 
-## 3.8 Pembahasan
+# BAB IV KESIMPULAN
 
-Berdasarkan hasil analisis, seluruh item pada kuesioner dinyatakan valid karena memiliki nilai Corrected Item-Total Correlation lebih besar dari 0,30. Selain itu, nilai Cronbach's Alpha sebesar 0,874 menunjukkan bahwa instrumen memiliki tingkat reliabilitas yang tinggi sehingga layak digunakan dalam penelitian.
+## Kesimpulan
 
-Penggunaan metode Two-Stage Cluster Sampling memungkinkan proses pengambilan sampel dilakukan secara lebih terstruktur melalui dua tahap, yaitu pemilihan cluster dan pemilihan anggota sampel pada masing-masing cluster. Setelah dilakukan pembobotan berdasarkan peluang pemilihan sampel, diperoleh estimasi rata-rata skor kecemasan mahasiswa sebesar **33,993**.
+Berdasarkan hasil analisis yang telah dilakukan, diperoleh kesimpulan sebagai berikut.
 
-Nilai Relative Standard Error (RSE) sebesar **7,931%** menunjukkan bahwa hasil estimasi memiliki tingkat ketelitian yang baik. Selain itu, interval kepercayaan yang diperoleh memberikan gambaran rentang nilai rata-rata populasi yang mungkin, yaitu antara **28,709 hingga 39,277**.
+1. Instrumen penelitian yang digunakan untuk mengukur tingkat kecemasan mahasiswa dinyatakan **valid** dan **reliabel**. Hasil uji validitas menunjukkan bahwa seluruh butir pertanyaan memiliki nilai **Corrected Item-Total Correlation (r.drop) > 0,30**, sedangkan hasil uji reliabilitas menghasilkan nilai **Cronbach's Alpha sebesar 0,874**, sehingga instrumen layak digunakan dalam penelitian.
 
-Secara keseluruhan, metode Two-Stage Cluster Sampling berhasil digunakan untuk mengestimasi rata-rata tingkat kecemasan mahasiswa berdasarkan data survei yang telah dikumpulkan.
+2. Estimasi rata-rata tingkat kecemasan mahasiswa menggunakan metode **Two-Stage Cluster Sampling** menghasilkan nilai **33,993** dengan **Standard Error (SE) sebesar 2,696**. Interval kepercayaan 95% berada pada rentang **28,709 hingga 39,277**, sedangkan nilai **Relative Standard Error (RSE) sebesar 7,93%** menunjukkan bahwa hasil estimasi memiliki tingkat ketelitian yang baik.
 
----
+3. Hasil estimasi menunjukkan bahwa rata-rata tingkat kecemasan mahasiswa pada populasi diperkirakan sebesar **33,993**. Selain itu, nilai **Design Effect (DEFF) sebesar 8,283** menunjukkan bahwa desain pengambilan sampel memengaruhi variasi hasil estimasi, sehingga penggunaan pembobotan pada metode **Two-Stage Cluster Sampling** membantu menghasilkan estimasi yang lebih representatif terhadap populasi penelitian.
 
-# BAB IV PENUTUP
+## Saran
 
-## 4.1 Kesimpulan
+1. Penelitian selanjutnya disarankan menggunakan jumlah responden yang lebih banyak agar hasil estimasi menjadi lebih representatif.
 
-Berdasarkan hasil penelitian yang telah dilakukan, diperoleh kesimpulan sebagai berikut.
-
-1. Hasil uji validitas menunjukkan bahwa seluruh item pertanyaan (P1–P10) memiliki nilai **Corrected Item-Total Correlation** lebih besar dari 0,30 sehingga seluruh item dinyatakan **valid**. Selain itu, hasil uji reliabilitas memperoleh nilai **Cronbach's Alpha sebesar 0,874**, yang menunjukkan bahwa instrumen penelitian **reliabel** dan layak digunakan sebagai alat pengumpulan data.
-
-2. Hasil estimasi menggunakan metode **Two-Stage Cluster Sampling** menunjukkan bahwa rata-rata skor tingkat kecemasan mahasiswa Program Studi Matematika Universitas Mataram sebesar **33,993**. Estimasi tersebut diperoleh dengan menggunakan pembobotan berdasarkan peluang pemilihan sampel pada masing-masing cluster.
-
-3. Hasil estimasi memiliki **Standard Error (SE) sebesar 2,696**, **Relative Standard Error (RSE) sebesar 7,931%**, **interval kepercayaan 95% sebesar (28,709; 39,277)**, serta **Design Effect (Deff) sebesar 8,283**. Nilai RSE yang berada di bawah 25% menunjukkan bahwa hasil estimasi memiliki tingkat ketelitian yang baik, sehingga estimasi rata-rata tingkat kecemasan mahasiswa dapat digunakan sebagai gambaran kondisi populasi penelitian.
-
----
-
-## 4.2 Saran
-
-1. Penelitian selanjutnya disarankan menggunakan jumlah cluster yang lebih banyak agar estimasi yang diperoleh semakin representatif terhadap populasi.
-
-2. Jumlah responden dapat diperbanyak sehingga hasil estimasi menjadi lebih stabil dan memiliki tingkat ketelitian yang lebih tinggi.
-
-3. Instrumen penelitian dapat dikembangkan dengan menambahkan indikator lain yang berkaitan dengan tingkat kecemasan mahasiswa agar informasi yang diperoleh menjadi lebih komprehensif.
-
-4. Penelitian selanjutnya dapat menerapkan metode sampling lain yang sesuai dengan karakteristik populasi sehingga hasil estimasi dapat dibandingkan dengan metode Two-Stage Cluster Sampling.
+2. Variabel penelitian dapat dikembangkan dengan menambahkan faktor-faktor lain yang memengaruhi tingkat kecemasan mahasiswa sehingga hasil penelitian menjadi lebih komprehensif.
