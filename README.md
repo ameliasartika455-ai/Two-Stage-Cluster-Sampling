@@ -40,12 +40,11 @@ Penelitian ini diharapkan dapat memberikan pemahaman mengenai penerapan metode T
 
 ---
 
-# BAB II
-# METODOLOGI PENELITIAN
+# BAB II. METODOLOGI PENELITIAN
 
 ## 2.1 Data Penelitian
 
-Data yang digunakan dalam penelitian ini merupakan data primer yang diperoleh melalui penyebaran kuesioner kepada mahasiswa Program Studi Matematika Universitas Mataram. Kuesioner berisi 10 butir pernyataan mengenai tingkat kecemasan mahasiswa dalam menghadapi ujian dengan menggunakan skala Likert 1–5, yaitu:
+Penelitian ini menggunakan data primer yang diperoleh melalui penyebaran kuesioner mengenai tingkat kecemasan mahasiswa dalam menghadapi ujian. Instrumen penelitian terdiri atas 10 butir pertanyaan menggunakan skala Likert 1–5, dengan keterangan sebagai berikut:
 
 - 1 = Sangat Tidak Setuju
 - 2 = Tidak Setuju
@@ -53,161 +52,194 @@ Data yang digunakan dalam penelitian ini merupakan data primer yang diperoleh me
 - 4 = Setuju
 - 5 = Sangat Setuju
 
-Jumlah populasi penelitian sebanyak **56 mahasiswa**, yang terdiri atas:
+Populasi penelitian adalah seluruh mahasiswa Statistika yang berada pada dua kelas, yaitu:
 
-| Angkatan | Jumlah Mahasiswa |
-|:---------:|----------------:|
+| Cluster | Jumlah Mahasiswa |
+|---------|-----------------:|
 | 2024A | 24 |
 | 2025A | 32 |
 | **Total** | **56** |
 
-Jumlah sampel yang digunakan dalam penelitian ini adalah **30 responden**.
+---
+
+## 2.2 Penentuan Jumlah Sampel
+
+Jumlah sampel ditentukan menggunakan rumus Slovin.
+
+**Rumus Slovin**
+
+```
+            N
+n = ----------------
+    1 + N(e × e)
+```
+
+Keterangan:
+
+- n = ukuran sampel
+- N = jumlah populasi
+- e = margin of error
+
+Pada penelitian ini diketahui:
+
+- N = 56 mahasiswa
+- e = 12,5% = 0,125
+
+Sehingga diperoleh:
+
+```
+             56
+n = ----------------------
+    1 + 56(0,125 × 0,125)
+
+  = 56 / 1,875
+
+  = 29,87 ≈ 30 responden
+```
+
+Dengan demikian jumlah sampel yang digunakan dalam penelitian ini adalah **30 responden**.
 
 ---
 
-## 2.2 Teknik Pengambilan Sampel
+## 2.3 Teknik Pengambilan Sampel
 
-Penelitian ini menggunakan metode **Two-Stage Cluster Sampling**, yaitu metode pengambilan sampel yang dilakukan melalui dua tahap.
+Penelitian ini menggunakan metode **Two-Stage Cluster Sampling**, yaitu teknik pengambilan sampel yang dilakukan melalui dua tahap.
 
-### Tahap Pertama (First Stage)
+### Tahap I (Pemilihan Cluster)
 
-Pada tahap pertama dilakukan pemilihan cluster. Cluster dalam penelitian ini adalah **angkatan mahasiswa**, yaitu:
+Populasi dikelompokkan berdasarkan kelas, yaitu:
 
-- Angkatan 2024A
-- Angkatan 2025A
+- 2024A
+- 2025A
 
-Pemilihan cluster dilakukan secara acak menggunakan fungsi **RAND()** pada Microsoft Excel. Setiap cluster diberikan bilangan acak, kemudian diurutkan dari nilai terkecil hingga terbesar sehingga diperoleh cluster yang digunakan dalam penelitian.
+Pemilihan cluster dilakukan menggunakan Microsoft Excel dengan fungsi **RAND()**. Nilai acak diurutkan dari yang terkecil hingga terbesar, kemudian dua cluster teratas dipilih sebagai cluster penelitian.
 
-### Tahap Kedua (Second Stage)
+Cluster yang terpilih adalah:
 
-Setelah cluster ditetapkan, seluruh mahasiswa pada masing-masing cluster digabungkan sesuai kelompoknya.
-
-Selanjutnya dilakukan pengacakan kembali terhadap anggota pada masing-masing cluster menggunakan fungsi **RAND()** di Microsoft Excel. Nilai acak kemudian diurutkan dari yang terkecil hingga terbesar, kemudian dipilih sejumlah responden sesuai alokasi proporsional.
-
-Jumlah sampel tiap cluster dihitung menggunakan rumus:
-
-\[
-n_h=\frac{N_h}{N}\times n
-\]
-
-dengan:
-
-- \(N_h\) = jumlah populasi pada cluster ke-h
-- \(N\) = jumlah populasi keseluruhan
-- \(n\) = jumlah sampel
-
-Diketahui:
-
-\[
-N=56
-\]
-
-\[
-n=30
-\]
-
-Untuk cluster 2024A:
-
-\[
-n_{2024}=\frac{24}{56}\times30=12,86\approx13
-\]
-
-Untuk cluster 2025A:
-
-\[
-n_{2025}=\frac{32}{56}\times30=17,14\approx17
-\]
-
-Sehingga diperoleh alokasi sampel sebagai berikut.
-
-| Angkatan | Populasi | Sampel |
-|:---------:|---------:|--------:|
-|2024A|24|13|
-|2025A|32|17|
-|**Total**|**56**|**30**|
+- 2024A
+- 2025A
 
 ---
 
-## 2.3 Uji Validitas
+### Tahap II (Pemilihan Responden)
 
-Uji validitas dilakukan menggunakan **Corrected Item-Total Correlation** untuk mengetahui kemampuan setiap butir pertanyaan dalam mengukur variabel penelitian.
+Jumlah sampel pada masing-masing cluster ditentukan secara proporsional menggunakan rumus:
 
-Kriteria yang digunakan adalah:
+```
+        Nh
+nh = -------- × n
+         N
+```
 
-- Corrected Item-Total Correlation > 0,30 → Valid
-- Corrected Item-Total Correlation ≤ 0,30 → Tidak Valid
+Keterangan:
 
----
+- nh = jumlah sampel pada cluster ke-h
+- Nh = jumlah populasi pada cluster ke-h
+- N = jumlah populasi
+- n = jumlah sampel
 
-## 2.4 Uji Reliabilitas
+Perhitungan untuk masing-masing cluster adalah sebagai berikut.
 
-Reliabilitas instrumen diukur menggunakan koefisien **Cronbach's Alpha**.
+#### Cluster 2024A
 
-Kriteria yang digunakan adalah:
+```
+      24
+nh = ---- × 30
+      56
 
-- Cronbach's Alpha ≥ 0,70 → Reliabel
-- Cronbach's Alpha < 0,70 → Tidak Reliabel
+   = 12,86 ≈ 13 responden
+```
 
----
+#### Cluster 2025A
 
-## 2.5 Pembobotan
+```
+      32
+nh = ---- × 30
+      56
 
-Karena penelitian menggunakan metode **Two-Stage Cluster Sampling**, maka setiap responden diberikan bobot sesuai peluang terpilihnya.
+   = 17,14 ≈ 17 responden
+```
 
-Bobot dihitung menggunakan rumus:
+Selanjutnya, anggota pada masing-masing cluster kembali diacak menggunakan fungsi **RAND()** di Microsoft Excel. Nilai acak kemudian diurutkan dari yang terkecil hingga terbesar, sehingga diperoleh:
 
-\[
-w_h=\frac{N_h}{n_h}
-\]
+- 13 responden dari kelas 2024A.
+- 17 responden dari kelas 2025A.
 
-dengan:
-
-- \(w_h\) = bobot pada cluster ke-h
-- \(N_h\) = jumlah populasi cluster ke-h
-- \(n_h\) = jumlah sampel cluster ke-h
-
-Perhitungan bobot:
-
-Untuk angkatan 2024A
-
-\[
-w_{2024}=\frac{24}{13}=1,846
-\]
-
-Untuk angkatan 2025A
-
-\[
-w_{2025}=\frac{32}{17}=1,882
-\]
-
-Bobot tersebut digunakan dalam proses estimasi menggunakan package **survey** pada perangkat lunak R.
+Dengan demikian total sampel penelitian berjumlah **30 responden**.
 
 ---
 
-## 2.6 Estimasi Two-Stage Cluster Sampling
+## 2.4 Langkah Analisis Data
 
-Estimasi rata-rata skor kecemasan dilakukan menggunakan fungsi **svymean()** pada package **survey**.
+Analisis data dilakukan menggunakan perangkat lunak **R** dengan tahapan sebagai berikut.
 
-Parameter yang dihitung meliputi:
-
-- Mean (Rata-rata)
-- Standard Error (SE)
-- Confidence Interval (CI)
-- Relative Standard Error (RSE)
-- Design Effect (Deff)
+1. Mengimpor data hasil kuesioner.
+2. Melakukan uji validitas instrumen menggunakan Corrected Item-Total Correlation.
+3. Melakukan uji reliabilitas menggunakan Cronbach's Alpha.
+4. Menghitung skor total setiap responden.
+5. Menghitung bobot sampel pada setiap cluster.
+6. Menentukan desain survei menggunakan fungsi `svydesign()`.
+7. Mengestimasi rata-rata skor kecemasan menggunakan fungsi `svymean()`.
+8. Menghitung Standard Error (SE).
+9. Menghitung Confidence Interval (CI) 95%.
+10. Menghitung Relative Standard Error (RSE).
+11. Menghitung Design Effect (Deff).
+12. Menyajikan hasil estimasi dalam bentuk tabel dan grafik.
 
 ---
 
-## 2.7 Perangkat Lunak
+## 2.5 Rumus Estimasi Two-Stage Cluster Sampling
 
-Analisis data dilakukan menggunakan perangkat lunak **RStudio** dengan package:
+### 1. Estimasi Rata-rata
 
-- readxl
-- psych
-- survey
+```
+           Σ(wi × yi)
+ȳ = --------------------------
+          Σwi
+```
 
-Sedangkan proses pengacakan responden dilakukan menggunakan **Microsoft Excel** melalui fungsi **RAND()**.
+Keterangan:
 
+- yi = skor responden ke-i
+- wi = bobot responden
+
+---
+
+### 2. Standard Error (SE)
+
+```
+SE = √Var(ȳ)
+```
+
+---
+
+### 3. Confidence Interval (95%)
+
+```
+CI = ȳ ± 1,96 × SE
+```
+
+---
+
+### 4. Relative Standard Error (RSE)
+
+```
+          SE
+RSE = -------- × 100%
+         ȳ
+```
+
+---
+
+### 5. Design Effect (Deff)
+
+```
+             Var(Cluster)
+Deff = ----------------------------
+          Var(Simple Random)
+```
+
+Nilai Deff digunakan untuk menggambarkan efisiensi desain sampling yang digunakan dibandingkan dengan Simple Random Sampling.
 ---
 
 # BAB III
