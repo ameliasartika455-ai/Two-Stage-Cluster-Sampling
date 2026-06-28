@@ -294,11 +294,11 @@ Berdasarkan hasil tersebut, seluruh item memiliki nilai **Corrected Item-Total C
 Reliabilitas instrumen diukur menggunakan koefisien **Cronbach's Alpha**.
 
 Hasil analisis menunjukkan nilai:
-
+```
 \[
 \alpha = 0,874
 \]
-
+```
 Karena nilai Cronbach's Alpha lebih besar dari **0,70**, maka instrumen penelitian dinyatakan **reliabel**. Hal ini menunjukkan bahwa seluruh butir pernyataan memiliki tingkat konsistensi internal yang baik dalam mengukur tingkat kecemasan mahasiswa.
 
 ---
@@ -323,7 +323,7 @@ Berdasarkan histogram terlihat bahwa skor total responden tersebar pada rentang 
 Karena penelitian menggunakan metode **Two-Stage Cluster Sampling**, maka setiap responden diberikan bobot berdasarkan peluang terpilihnya pada masing-masing cluster.
 
 Bobot dihitung menggunakan rumus
-
+```
 \[
 w_h=\frac{N_h}{n_h}
 \]
@@ -346,7 +346,7 @@ Untuk angkatan 2025A
 \[
 w=\frac{32}{17}=1,882
 \]
-
+```
 Bobot tersebut digunakan dalam proses estimasi menggunakan package **survey** di RStudio sehingga setiap responden memberikan kontribusi sesuai dengan peluang pemilihannya.
 
 ---
