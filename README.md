@@ -442,13 +442,13 @@ Nilai estimasi rata-rata skor tingkat kecemasan mahasiswa sebesar **33,993** men
 
 ## Kesimpulan
 
-Berdasarkan hasil analisis yang telah dilakukan, diperoleh kesimpulan sebagai berikut.
+Berdasarkan hasil penelitian yang telah dilakukan, dapat disimpulkan bahwa:
 
-1. Instrumen penelitian yang digunakan untuk mengukur tingkat kecemasan mahasiswa dinyatakan **valid** dan **reliabel**. Hasil uji validitas menunjukkan bahwa seluruh butir pertanyaan memiliki nilai **Corrected Item-Total Correlation (r.drop) > 0,30**, sedangkan hasil uji reliabilitas menghasilkan nilai **Cronbach's Alpha sebesar 0,874**, sehingga instrumen layak digunakan dalam penelitian.
+1. Instrumen penelitian yang digunakan telah memenuhi syarat validitas dan reliabilitas. Seluruh butir pertanyaan memiliki nilai Corrected Item-Total Correlation lebih dari 0,30 sehingga dinyatakan valid, sedangkan nilai Cronbach's Alpha sebesar **0,874** menunjukkan bahwa instrumen memiliki tingkat reliabilitas yang baik.
 
-2. Estimasi rata-rata tingkat kecemasan mahasiswa menggunakan metode **Two-Stage Cluster Sampling** menghasilkan nilai **33,993** dengan **Standard Error (SE) sebesar 2,696**. Interval kepercayaan 95% berada pada rentang **28,709 hingga 39,277**, sedangkan nilai **Relative Standard Error (RSE) sebesar 7,93%** menunjukkan bahwa hasil estimasi memiliki tingkat ketelitian yang baik.
+2. Berdasarkan metode **Two-Stage Cluster Sampling**, diperoleh estimasi rata-rata skor tingkat kecemasan mahasiswa sebesar **33,993** dengan Standard Error sebesar **2,696**, Relative Standard Error (RSE) sebesar **7,93%**, dan interval kepercayaan 95% sebesar **28,709–39,277**.
 
-3. Hasil estimasi menunjukkan bahwa rata-rata skor tingkat kecemasan mahasiswa pada populasi diperkirakan sebesar **33,993**. Nilai tersebut merupakan estimasi rata-rata skor yang diperoleh dari pengukuran menggunakan kuesioner, sehingga menggambarkan tingkat kecemasan mahasiswa pada populasi yang menjadi sasaran penelitian.
+3. Berdasarkan rentang skor total kuesioner (10–50), hasil estimasi rata-rata skor sebesar **33,993** berada pada kategori **tinggi**. Hal ini menunjukkan bahwa secara umum mahasiswa pada populasi memiliki tingkat kecemasan yang tinggi dalam menghadapi ujian. Hasil tersebut menjawab tujuan penelitian, yaitu mengestimasi tingkat kecemasan mahasiswa menggunakan metode Two-Stage Cluster Sampling.
 
 ## Saran
 
