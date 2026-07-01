@@ -362,7 +362,9 @@ Skor total diperoleh dengan menjumlahkan skor seluruh item pertanyaan pada setia
 
 ### Pembahasan
 
-Rata-rata skor total responden sebesar **33,97** dengan simpangan baku sebesar **7,55**. Nilai minimum yang diperoleh adalah **20**, sedangkan nilai maksimum mencapai **47**. Hal ini menunjukkan bahwa tingkat kecemasan mahasiswa cukup bervariasi, namun sebagian besar responden memiliki skor pada kategori sedang.
+### Pembahasan
+
+Rata-rata skor total responden sebesar **33,97** dengan simpangan baku sebesar **7,55**. Nilai minimum yang diperoleh adalah **20**, sedangkan nilai maksimum mencapai **47**. Hal ini menunjukkan bahwa skor tingkat kecemasan mahasiswa cukup bervariasi, sehingga terdapat responden dengan skor yang relatif rendah maupun relatif tinggi.
 
 ---
 
@@ -375,7 +377,9 @@ Histogram berikut menunjukkan distribusi skor total tingkat kecemasan mahasiswa.
 
 ### Pembahasan
 
-Histogram menunjukkan bahwa sebagian besar responden memiliki skor total pada rentang sekitar **30 hingga 40**. Hal ini menunjukkan bahwa mayoritas mahasiswa memiliki tingkat kecemasan yang berada pada kategori sedang, meskipun terdapat beberapa responden dengan skor yang lebih rendah maupun lebih tinggi.
+### Pembahasan
+
+Histogram menunjukkan bahwa sebagian besar responden memiliki skor total pada rentang sekitar **30 hingga 40**. Hal ini menunjukkan bahwa distribusi skor tingkat kecemasan mahasiswa cenderung terkonsentrasi pada rentang tersebut, meskipun masih terdapat beberapa responden dengan skor yang lebih rendah maupun lebih tinggi.
 
 ---
 
@@ -430,6 +434,8 @@ Berdasarkan hasil estimasi menggunakan metode **Two-Stage Cluster Sampling**, di
 
 Nilai **Design Effect (DEFF)** sebesar **8,283** menunjukkan adanya pengaruh desain pengambilan sampel terhadap varians estimasi. Nilai ini mengindikasikan bahwa karakteristik responden dalam setiap cluster cenderung memiliki kemiripan sehingga memengaruhi besarnya variasi hasil estimasi yang diperoleh. Oleh karena itu, penggunaan pembobotan pada metode **Two-Stage Cluster Sampling** diperlukan agar estimasi yang dihasilkan tetap dapat merepresentasikan populasi penelitian.
 
+Nilai estimasi rata-rata skor tingkat kecemasan mahasiswa sebesar **33,993** menunjukkan bahwa secara rata-rata mahasiswa pada populasi memperoleh skor kecemasan sekitar **34** dari rentang skor **10–50**. Artinya, tingkat kecemasan yang diestimasi merupakan rata-rata skor hasil pengukuran menggunakan kuesioner, sehingga angka tersebut menggambarkan kondisi kecemasan mahasiswa pada populasi yang menjadi sasaran penelitian.
+
 ---
 
 # BAB IV KESIMPULAN
@@ -442,7 +448,7 @@ Berdasarkan hasil analisis yang telah dilakukan, diperoleh kesimpulan sebagai be
 
 2. Estimasi rata-rata tingkat kecemasan mahasiswa menggunakan metode **Two-Stage Cluster Sampling** menghasilkan nilai **33,993** dengan **Standard Error (SE) sebesar 2,696**. Interval kepercayaan 95% berada pada rentang **28,709 hingga 39,277**, sedangkan nilai **Relative Standard Error (RSE) sebesar 7,93%** menunjukkan bahwa hasil estimasi memiliki tingkat ketelitian yang baik.
 
-3. Hasil estimasi menunjukkan bahwa rata-rata tingkat kecemasan mahasiswa pada populasi diperkirakan sebesar **33,993**. Selain itu, nilai **Design Effect (DEFF) sebesar 8,283** menunjukkan bahwa desain pengambilan sampel memengaruhi variasi hasil estimasi, sehingga penggunaan pembobotan pada metode **Two-Stage Cluster Sampling** membantu menghasilkan estimasi yang lebih representatif terhadap populasi penelitian.
+3. Hasil estimasi menunjukkan bahwa rata-rata skor tingkat kecemasan mahasiswa pada populasi diperkirakan sebesar **33,993**. Nilai tersebut merupakan estimasi rata-rata skor yang diperoleh dari pengukuran menggunakan kuesioner, sehingga menggambarkan tingkat kecemasan mahasiswa pada populasi yang menjadi sasaran penelitian.
 
 ## Saran
 
